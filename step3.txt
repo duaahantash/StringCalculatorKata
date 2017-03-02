@@ -1,0 +1,21 @@
+[<TestCase("1\n2,3" , Rwsult =6)>]
+[<TestCase("2,3\n4" , Result =9)>]
+  member x.Add_MoreThanTwoNumbersWithMixedDelimiter_ReturnsTheirSum expression=
+  let calc=StringCalculator()
+  calc.Add expression 
+
+
+  -------------------------------------------------------------------------------------
+
+  namespace StringCalculator.Logic
+
+  open System
+  
+  type StringCalculator()=
+     member x.Add expression=
+       match expression with 
+
+       | "" -> 0
+       | _ when expression.Contains "," ->
+        [for n in expression.Split[| ' , '|] -> Int32.Parse n] |> List.reduce (fun acc v -> acc+ v)
+	| _ -> Int32.parse expression 
