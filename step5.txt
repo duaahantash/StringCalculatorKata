@@ -1,0 +1,39 @@
+ [<TestCase("-1" ,Result ="negatives not allowed [-1]")>]
+ [<TestCase("1,-1,2,-2" , Result ="negatives not allowed [-1;-2]")>]
+
+   member x.Add_WithNegatives_ThrowExcption expression =
+     let calc =StringCalculator()
+     let result= Assert.Throw(type0f<NegativeEncounteredExption> , (fun() -> calc.Add expression |> ignore))
+      result.Message
+
+
+      --------------------------------------------------------------------------------
+
+      namespace StringCalculator.Logic
+
+      open System
+
+      type NegativeEncounteredExcption(negatives)=
+      inherit Excption(sprintf "negatives not allowed %A " negatives)
+
+      type StringCalculator()=
+
+       let rec addInternal delimiters expression=
+        match expression with 
+       |"" -> 0
+
+       |_ -> when expression.StartWith "//" -> 
+       
+          expression.SubString ((expression.IndexOf "\n" + 1 ) |> addInternal [|expression [2]|]
+       
+       | _ -> 
+       
+       let negatives , positives =
+       
+          [ for n in expression.Split delimiter -> Int32.Parse n] |> List.partition (fun n -> n< 0)
+
+              if negatives.Length > 0 Then raise (NegativeEncounteresExcption negatives)
+	      positives |> List.reduce (fun acc v -> acc + v)
+
+	member x.Add expression =
+	expression |> addInternal [|' , ' ; '\n'|]
