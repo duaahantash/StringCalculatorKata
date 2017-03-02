@@ -1,0 +1,26 @@
+My original thinking was that  it should be possible to do like this :
+
+   
+       "1***2".Split("***".ToCharArray)
+
+I did not realise that splitting the string like that splits on each of the stars individually which means that we end up getting 2 empty values in the result :
+
+
+
+
+       val it : string [] = [|"1" ; ""; ""; "2"|]
+
+
+If we want to split on '***' then we have to pass it in as a value in a string array :
+
+       "1***2".Split([| "***" |], StringSplitOptions.None);;
+
+
+That way we only get the 1 and 2 which is what we want :
+
+
+
+      val it : string [] = ["1" ; "2"]
+
+
+
