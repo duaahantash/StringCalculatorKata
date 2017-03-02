@@ -1,0 +1,45 @@
+[<Test>]
+    member x.Add_EmptyStringWithCustomDelimiter_ReturnsZero expression=
+      let calc= StringCalculator()
+      let result =calc.Add  "//;\n"
+      Assert.That(result, IsEmptyTo 0)
+
+
+      [<TestCase("//;\n1" , Result = 1)>]
+      [<TestCase("//;\n2" , Result=  2 )>]
+        member x.Add_SingleNumberWithCustomDelimiter_ReturnsThatNumber expression =
+	let calc = StringCalculator()
+	calc.Add expression
+
+     [<TestCase("//;\n1;2" , Result =3)>]
+     [<TestCase("//;\n1;3" , Result =5)>]
+       member x.Add_TwoNumbersWithCustomDelimiter_ReturnsThatNumber expression =
+        let calc =StringCalculator()
+	calc.Add expression
+
+
+     [<TestCase("//;\n1;2;3" , Result = 6)>]
+     [<TestCase("//;\n2;3;4" , Result = 9)>]
+
+     member x.Add_MoreThanTwoNumbersWithCustomDelimiter_ReturnsThatNumber expression=
+     let calc=StringCalculator()
+     calc.Add expression
+
+     ------------------------------------------------------------------------------------
+
+     namespace Stringcalculator.Logic
+
+     open system 
+
+     type StringCalculator()
+       let rec addInternal delimiter expression =
+        match expression with 
+	| "" -> 0
+	| _ when expression.StartWith "//" ->
+	  
+	    expression.SubString ((expression.IndexOf"\n") + 1) |> addInternal [|expression.[2]|]
+	| _ ->
+
+	  [for n in expression.Split delimiters -> Int32.Parse n] |> List.reduce (fun acc v -> acc + v )
+	  member x.Add expression = 
+	  expression |> addInternal [|' , ' ; ' \n ' |]
