@@ -1,0 +1,12 @@
+  
+  [<test>]
+   member x.IgnoreNumbersAbove1000()=
+   Assert.AreEqual(2, Add "1001,2")
+
+
+
+
+   --------------------------------------------------
+   
+   |> Array.filter(fun n-> n< 1000)
+   
