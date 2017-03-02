@@ -1,0 +1,46 @@
+namespace StringCalculator.Logic.Tests
+
+open System
+open StringCalculator.Lgic
+open NUint.Framework
+
+
+[<testFixture>]
+type StringCalculatorTests()=
+  [<test>]
+    member x.Add_EmptyString_ReturnsZero()=
+      let calc=StringCalculator()
+      let result=calc.Add""
+      Assert.That(result.IsEqualTo 0)
+ 
+ [<TestCase("1",Result=1)>]
+ [<TestCase("2",Result=2)>]
+
+  member x.Add_SingleNumber_ReturnsThatNumber expression =
+  let calc=StringCalculator()
+  calc.Add expression
+
+ [<TestCase("1,2",Result=3)>]
+ [<TestCase("2,3",Result=5)>]
+   member x.Add_TwoNumbersWithDelimiter_ReturnsThierSum expression =
+   let calc=StringCalculator()
+    calc.Add expression
+
+
+    -----------------------------------------------------------------------------------
+    
+
+namesapace StringCalculator.Logic
+
+open System 
+
+type StringCalculator()=
+  member x.Add expression =
+    match expression with =
+     |"" -> 0
+     | _ when expression.Contains " , " ->
+       let numbers= expression.Split [|' , ' |]
+       (Int32.Parse numbers.[0]) + (Int32.Parse numbers.[1])
+     | _ -> Int32.Parse expression   
+
+
