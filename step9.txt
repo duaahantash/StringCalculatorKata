@@ -1,0 +1,11 @@
+ 
+ [<Test>]
+   
+   member x.can have several delimiters()=
+      Add "//[*]\n1*2%3" |> should equal 6
+
+
+ [<Test>]
+
+ member x.have several delimiters of any length()=
+      Add "//[***][%]\n1***2%3 "  |>should equal 6
