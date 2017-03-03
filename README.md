@@ -1,3 +1,2 @@
-StringCalculatorKata 
-StringCalculatorKata is a repository for showing the Calculator String in different 9 steps
+String Calculator Kata is a repository  that showing the TDD exercise in coding , refactoring and test-first 
 
